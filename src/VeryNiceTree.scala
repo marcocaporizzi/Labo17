@@ -7,17 +7,18 @@ trait TreeDrawer{
   val myLittleTurtle = new TurtleGraphics(600, 600, "Tree")
 
   def drawBase(d: Double): Unit = {
-    myLittleTurtle.setColor(Color.BLACK)
-    myLittleTurtle.setWidth(5)
+    myLittleTurtle.setColor(Color.orange.darker().darker().darker())
+    myLittleTurtle.setWidth(9)
     myLittleTurtle.forward(d)
   }
 
   def drawBranch(d: Double): Unit = {
+
     if (d > 1) {
-      myLittleTurtle.setColor(Color.PINK)
+      myLittleTurtle.setColor(Color.red.darker())
       val anAngleSaver = myLittleTurtle.getTurtleAngle
       val aPositionSaver = myLittleTurtle.getPosition
-      myLittleTurtle.turn(Random.between(-360, 360))
+      myLittleTurtle.turn(Random.between(-180, 180))
       //left subtree
       drawBranch(d - 1)
 
@@ -25,11 +26,11 @@ trait TreeDrawer{
       myLittleTurtle.jump(aPositionSaver.x, aPositionSaver.y)
       myLittleTurtle.penDown
       //right subtree
-      myLittleTurtle.turn(Random.between(-360, 360))
+      myLittleTurtle.turn(Random.between(-180, 180))
       drawBranch(d - 1)
     }
     else {
-      myLittleTurtle.forward(20)
+      myLittleTurtle.forward(Random.between(5,10))
 
     }
   }
@@ -37,28 +38,30 @@ trait TreeDrawer{
 
   def drawTree(n:Int, length: Double): Unit = {
     if ( n > 1 ) {
-      drawBase(length-1)
+      drawBase(length)
+      myLittleTurtle.setWidth(Random.between(3,7))
       val anAngleSaver = myLittleTurtle.getTurtleAngle
       val aPositionSaver = myLittleTurtle.getPosition
-      myLittleTurtle.turn(Random.between(-90,90))
+      myLittleTurtle.turn(-30-Random.between(-20,20))
       //left subtree
-      drawTree(n - 1, Random.between(10,30))
+      drawTree(n - 1, 30+Random.between(-15,-10))
+      drawBranch(n-1)
 
       myLittleTurtle.setAngle(anAngleSaver)
       myLittleTurtle.jump(aPositionSaver.x,aPositionSaver.y)
       myLittleTurtle.penDown
       //right subtree
-      myLittleTurtle.turn(Random.between(-90,90))
-      drawTree(n - 1, Random.between(10,30))
-
+      myLittleTurtle.turn(30-Random.between(-20,20))
+      drawTree(n - 1, 30+Random.between(-15,-10))
+      drawBranch(n-1)
     }
     else {
-      drawBranch(20)
+      drawBranch(Random.between(5,10))
     }
   }
 }
 
 object VeryNiceTree extends App with TreeDrawer {
 
-  drawTree(5,120)
+  drawTree(9,120)
 }
